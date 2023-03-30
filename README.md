@@ -103,6 +103,27 @@ exit
 ```bash
 poetry run python -c "from ff_fasttext import FfModel; FfModel('test_data/wiki.en.fifu').eval('Hello')"
 ```
+#### Usage
+
+```shell
+curl http://localhost:80/health
+```
+example: 
+```json
+{
+    "status": "OK",
+    "version": {
+        "version": "1.0.0",
+        "git_commit": "057c740723a5d90c1c4237e103b3c26b408d77b0",
+        "language": "python",
+        "language_version": "3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0]"
+    },
+    "uptime": "1 m, 19 s",
+    "start_time": "2023-03-30T07:48:25.613843",
+    "timestamp": "2023-03-30T07:49:44.253662",
+    "checks": []
+}
+```
 
 ### Algorithm
 
