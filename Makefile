@@ -3,15 +3,16 @@ MAIN=build-dev
 
 BUILD=build
 
-CONTAINER_IMAGE=registry.gitlab.com/flaxandteal/onyx/ff_fasttext_poc:build-481688189
-IMAGE_LATEST_TAG=registry.gitlab.com/flaxandteal/onyx/ff_fasttext_poc:latest
-IMAGE_SHA_TAG=registry.gitlab.com/flaxandteal/onyx/ff_fasttext_poc:0321b497
+CONTAINER_IMAGE=ff_fasttext_api:latest
 
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
+
+EXISTS_POETRY := $(shell command -v poetry 2> /dev/null)
+EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 
 .PHONY: all
 all: build-dev
@@ -24,7 +25,7 @@ wheels:
 
 .PHONY: build
 build: Dockerfile
-	docker build -t ${CONTAINER_IMAGE} -t ${IMAGE_LATEST_TAG} -t ${IMAGE_SHA_TAG} .
+	docker build -t ${CONTAINER_IMAGE} .
 
 .PHONY: build-dev
 build-dev: Dockerfile
@@ -68,3 +69,38 @@ help: ## Show this help.
 		if (/^[a-zA-Z_-]+:.*?##.*$$/) {printf "    ${YELLOW}%-20s${GREEN}%s${RESET}\n", $$1, $$2} \
 		else if (/^## .*$$/) {printf "  ${CYAN}%s${RESET}\n", substr($$1,4)} \
 		}' $(MAKEFILE_LIST)
+
+.PHONY: deps
+deps:
+	@if [ -z "$(EXISTS_FLASK)" ]; then \
+	if [ -z "$(EXISTS_POETRY)" ]; then \
+		pip -qq install poetry; \
+		poetry config virtualenvs.in-project true; \
+	fi; \
+		poetry install --quiet || poetry install; \
+	fi; \
+
+.PHONY: test-component
+test-component: deps
+	poetry run pytest tests/api
+
+.PHONY: unit
+unit: deps
+	poetry run pytest tests/unit
+
+.PHONY: test
+test: unit test-component
+
+.PHONY: fmt
+fmt: deps
+	poetry run isort ff_fasttext_api
+	poetry run black ff_fasttext_api
+
+.PHONY: lint
+lint: deps
+	poetry run pflake8 ff_fasttext_api
+	poetry run black --check ff_fasttext_api
+
+.PHONY: audit
+audit: deps
+	poetry run jake ddt --whitelist ci/audit-allow-list.json
