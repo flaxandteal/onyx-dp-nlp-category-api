@@ -12,6 +12,7 @@ RUN maturin build
 FROM python:3.9
 
 RUN mkdir -p /app/ff_fasttext
+RUN mkdir -p /app/test_data
 
 RUN pip install poetry
 
@@ -19,15 +20,15 @@ COPY --from=ff /app/build/target/wheels/*cp39*.whl /app
 
 WORKDIR /app
 
-COPY api/pyproject.toml /app
-COPY api/poetry.lock /app
-RUN poetry add ./$(ls -1 *.whl)
+COPY pyproject.toml /app
+COPY poetry.lock /app
 
-COPY api/ff_fasttext_api /app/ff_fasttext_api
+COPY ff_fasttext_api /app/ff_fasttext_api
+COPY data /app/test_data
 
 RUN poetry install
 
 # We want to use poetry for consistency and because it is designed to reproducibly
 # manage Python - however the link at the top gives ways of doing this multistage,
 # which would be slightly nicer.
-CMD ["poetry", "run", "uvicorn", "--factory", "ff_fasttext_api.server:create_app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["poetry", "run", "uvicorn", "--factory", "ff_fasttext_api.server:create_app", "--host", "0.0.0.0", "--port", "3003"]
