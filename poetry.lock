@@ -597,11 +597,11 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "regex"
-version = "2023.3.23"
+version = "2023.5.4"
 description = "Alternative regular expression module, to replace re."
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.6"
 
 [[package]]
 name = "requests"
@@ -636,6 +636,14 @@ pygments = ">=2.6.0,<3.0.0"
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
+
+[[package]]
+name = "ruff"
+version = "0.0.264"
+description = "An extremely fast Python linter, written in Rust."
+category = "main"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "six"
@@ -740,7 +748,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-requests"
-version = "2.28.11.17"
+version = "2.29.0.0"
 description = "Typing stubs for requests"
 category = "dev"
 optional = false
@@ -751,7 +759,7 @@ types-urllib3 = "<1.27"
 
 [[package]]
 name = "types-setuptools"
-version = "67.7.0.0"
+version = "67.7.0.1"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
@@ -759,7 +767,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-urllib3"
-version = "1.26.25.11"
+version = "1.26.25.12"
 description = "Typing stubs for urllib3"
 category = "dev"
 optional = false
@@ -805,7 +813,7 @@ standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchgod (>=0.6)", "p
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<4"
-content-hash = "bb8b0a3c47d13fe8fc499838e37229728b9e0943179b73f24a955caa6b3672c7"
+content-hash = "e4e799c3dc08ff51ea89575acd764566e58e1163607481a6dbd6a5e40f1f01c1"
 
 [metadata.files]
 anyio = []
@@ -860,6 +868,7 @@ pyyaml = []
 regex = []
 requests = []
 rich = []
+ruff = []
 six = []
 sniffio = []
 sortedcontainers = []
