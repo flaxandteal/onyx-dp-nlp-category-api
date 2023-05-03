@@ -5,8 +5,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: golang
-    tag: 1.19.5
+    repository: python
+    tag: 3.9.16
 
 inputs:
   - name: dp-nlp-category-api
@@ -15,7 +15,8 @@ outputs:
   - name: build
 
 caches:
-  - path: go/
-
+  - path: dp-nlp-category-api/.poetry/
+  - path: dp-nlp-category-api/.venv/
+  
 run:
   path: dp-nlp-category-api/ci/scripts/build.sh
