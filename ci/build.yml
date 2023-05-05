@@ -21,9 +21,9 @@ params:
   USERNAME: default_username
   PASSWORD: default_password
 
-#run:
-#  path: sh
-#  args:
+run:
+  path: build
+##  args:
 #    - -exc
 #    - |
 #      apk add bash
