@@ -2,6 +2,7 @@
 
 pushd dp-nlp-category-api
   make build
-  docker login -u $1 -p $2
-  make push-image
+  mkdir -p build
+  cp ff_fasttext_api-*-py3-none-any.whl $cwd/build
+  cp Dockerfile.concourse $cwd/build
 popd

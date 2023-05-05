@@ -24,8 +24,7 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 	safety check
 
 .PHONY: build
-build: Dockerfile ## Creates a Dockerfile from Dockerfile.in if non exists, then builds docker image - name: ff_fasttext_api:latest
-	docker build -t ${CONTAINER_IMAGE} .
+build: build-bin
 
 .PHONY: build-bin
 build-bin: deps  ## Builds a binary file called 
