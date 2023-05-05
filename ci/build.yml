@@ -21,15 +21,15 @@ params:
   USERNAME: default_username
   PASSWORD: default_password
 
-run:
-  path: sh
-  args:
-    - -exc
-    - |
-      apk add bash
-      apk add make
-      apk add m4
-      docker version
-      docker ps
-      chmod +x dp-nlp-category-api/ci/scripts/build.sh
-      ./dp-nlp-category-api/ci/scripts/build.sh $USERNAME $PASSWORD
+#run:
+#  path: sh
+#  args:
+#    - -exc
+#    - |
+#      apk add bash
+#      apk add make
+#      apk add m4
+#      docker version
+#      docker ps
+#      chmod +x dp-nlp-category-api/ci/scripts/build.sh
+#      ./dp-nlp-category-api/ci/scripts/build.sh $USERNAME $PASSWORD
