@@ -3,20 +3,23 @@
 platform: linux
 
 image_resource:
-  type: docker-image
+  type: registry-image
   source:
-    repository: python
-    tag: 3.9.16
+    repository: concourse/oci-build-task
 
 inputs:
-  - name: dp-nlp-category-api
+- name: dp-nlp-category-api
 
 outputs:
-  - name: build
+- name: image
 
 caches:
   - path: dp-nlp-category-api/.poetry/
   - path: dp-nlp-category-api/.venv/
   
+params:
+  CONTEXT: dp-nlp-category-api/
+  DOCKERFILE: dp-nlp-category-api/Dockerfile.in
+
 run:
-  path: dp-nlp-category-api/ci/scripts/build.sh
+  path: build
