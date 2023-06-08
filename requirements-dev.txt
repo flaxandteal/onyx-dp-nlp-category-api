@@ -1,0 +1,11 @@
+setuptools_rust~=1.0.0
+pip>=21.3
+nltk
+sortedcontainers
+elasticsearch2
+elasticsearch_dsl
+click
+fastapi
+pydantic
+uvicorn
+ruff

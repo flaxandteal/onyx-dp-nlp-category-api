@@ -1,0 +1,58 @@
+# API
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.poetry]
+name = "ff_fasttext_api"
+version = "0.1.0"
+description = "Created for ONS. API/CLI wrapper for proof-of-concept mmap'd Rust word2vec implementation linked with category matching"
+license = "MIT"
+authors = [
+    "Phil Weir <phil.weir@flaxandteal.co.uk>",
+    "Kanika Miglani <kanika.miglani@flaxandteal.co.uk>"
+]
+packages = [
+    { include = "ff_fasttext_api" },
+    { include = "ff_fasttext_api/scripts" }
+]
+
+# For installable server
+[tool.poetry.dependencies]
+python = ">=3.9,<4"
+# ff_fasttext - poetry can not currently recognise a local maturin project as Python
+# ff_fasttext = {path="../core", develop=false}
+bonn = "^0.1"
+click = "^8.0.3"
+httpx = "^0.24.0"
+starlette = "^0.25.0"
+fastapi = "^0.93"
+pydantic = "^1.9.0"
+uvicorn = "^0.17.4"
+dynaconf = "^3.1.7"
+urllib3 = "^1.26"
+structlog = "^21.5"
+requests = "^2.28.2"
+ruff = "^0.0.264"
+
+
+[tool.poetry.scripts]
+ff_fasttext_cli = "ff_fasttext_api.scripts.ff_fasttext:main"
+
+[tool.poetry.dev-dependencies]
+safety = "^2.3.5"
+jake = "^3.0.0"
+isort = "^5.12.0"
+pytest = "^7.2.2"
+wheel = "^0.40.0"
+ruff = "^0.0.264"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["E", "F"]
+
+# Ignore E501 - some lines can't be smalled than 90
+ignore = ["E501"]

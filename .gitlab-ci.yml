@@ -1,0 +1,29 @@
+# https://docs.openfaas.com/reference/cicd/gitlab/
+
+variables:
+  #CONTAINER_TAG_IMAGE: $CI_REGISTRY_IMAGE:build-$CI_BUILD_REF_NAME
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:build-$CI_PIPELINE_ID
+  IMAGE_LATEST_TAG: $CI_REGISTRY_IMAGE:latest
+  IMAGE_SHA_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+  DOCKER_DRIVER: overlay
+  DOCKER_HOST: tcp://localhost:2375/
+
+
+services:
+- docker:18.09.7-dind
+
+before_script:
+- docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+stages:
+  - build
+
+# Build the whole stack using only the faas-cli
+build:
+  stage: build
+  image: docker
+  script:
+  - apk add make m4
+  - make build
+  - docker image push --all-tags $CI_REGISTRY_IMAGE
