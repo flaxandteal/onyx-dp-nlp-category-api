@@ -9,14 +9,14 @@ info:
 schemes:
   - http
 paths:
-  /category:
+  /categories/{cat}:
     get:
       summary: match queries on the ONS Website to groupings in the ONS taxonomy
       description: Returns matches and categorises them into groups with a score based on relevancy 
       produces:
         - application/json
       parameters:
-        - in: query
+        - in: path
           name: cat
           required: true
           type: "string"
