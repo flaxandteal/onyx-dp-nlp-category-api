@@ -1,4 +1,4 @@
-from ff_fasttext_api.settings import VERSION, GIT_COMMIT, START_TIME
+from ff_fasttext_api.settings import settings
 import sys
 import time
 from datetime import datetime
@@ -11,7 +11,7 @@ ERROR = "ERROR"
 
 class Healthcheck:
     def __init__(self, status, checks):
-        formatted_start_time = datetime.fromtimestamp(int(START_TIME))
+        formatted_start_time = datetime.fromtimestamp(int(settings.START_TIME))
 
         build_time = datetime.now()
 
@@ -19,9 +19,9 @@ class Healthcheck:
 
         self.status = status
         self.version = {
-            "version": VERSION,
+            "version": settings.VERSION,
             "build_time": build_time,
-            "git_commit": GIT_COMMIT,
+            "git_commit": settings.GIT_COMMIT,
             "language": "python",
             "language_version": sys.version,
         }
