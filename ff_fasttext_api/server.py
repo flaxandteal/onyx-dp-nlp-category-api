@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
-from ff_fasttext_api.settings import FIFU_FILE, DUMMY_RUN, THRESHOLD
+from ff_fasttext_api.settings import settings
 from ff_fasttext_api.healthcheck import Healthcheck
 from bonn.extract import load
 from bonn.utils import filter_by_snr
@@ -54,7 +54,7 @@ def make_app(category_manager, health_check):
 
     @app.get("/categories")
     def get_categories(query: str, snr: Optional[float] = 1.275):
-        if DUMMY_RUN:
+        if settings.DUMMY_RUN:
             logger.warning(
                 event="dummy run is enabled, returning empty list", severity=2
             )
@@ -83,7 +83,7 @@ def make_app(category_manager, health_check):
             }
 
         return [
-            {"s": float(c[0]), "c": list(c[1])} for c in categories if c[0] > THRESHOLD
+            {"s": float(c[0]), "c": list(c[1])} for c in categories if c[0] > settings.THRESHOLD
         ]
 
     @app.get("/health")
@@ -93,7 +93,7 @@ def make_app(category_manager, health_check):
     return app
 
 def create_app():
-    category_manager = load(FIFU_FILE)
+    category_manager = load(settings.FIFU_FILE)
 
     health = Healthcheck(status="OK", checks=[])
 
