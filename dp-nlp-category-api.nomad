@@ -36,7 +36,7 @@ job "dp-nlp-category-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-nlp-category-api"]
+        args = ["python", "-m", "ff_fasttext_api.main.api"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
@@ -100,7 +100,7 @@ job "dp-nlp-category-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-nlp-category-api"]
+        args = ["python", "-m", "ff_fasttext_api.main.api"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
       }
