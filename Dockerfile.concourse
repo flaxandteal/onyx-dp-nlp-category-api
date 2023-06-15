@@ -8,3 +8,5 @@ COPY dist/ff_fasttext_api-0.1.0-py3-none-any.whl .
 RUN pip install ff_fasttext_api-0.1.0-py3-none-any.whl
 
 EXPOSE 28800
+
+CMD ["python", "-m", "ff_fasttext_api.main.api"]
