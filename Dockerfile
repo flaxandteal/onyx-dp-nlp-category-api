@@ -35,7 +35,7 @@ COPY poetry.lock /app
 COPY api.py /app/
 COPY settings.py /app/
 
-COPY ff_fasttext_api /app/ff_fasttext_api
+COPY category_api /app/category_api
 COPY test_data /app/test_data
 
 RUN poetry install

@@ -2,7 +2,7 @@ import structlog
 
 def setup_logger():
         return structlog.get_logger(
-        namespace="ff_fasttext_api",
+        namespace="category_api",
         processors=[
             structlog.stdlib.add_log_level,
             structlog.stdlib.PositionalArgumentsFormatter(),

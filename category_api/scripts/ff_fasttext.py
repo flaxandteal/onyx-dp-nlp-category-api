@@ -1,8 +1,8 @@
 import click
 from bonn.extract import load
-from ff_fasttext_api.settings import settings
+from category_api.settings import settings
 
-from ff_fasttext_api.logger import logger
+from category_api.logger import logger
 
 @click.command()
 def main():

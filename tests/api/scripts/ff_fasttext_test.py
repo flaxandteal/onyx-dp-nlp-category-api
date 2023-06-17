@@ -1,7 +1,7 @@
 from click.testing import CliRunner
 from unittest.mock import patch, MagicMock
 from bonn.extract import CategoryManager
-from ff_fasttext_api.scripts.ff_fasttext import main
+from category_api.scripts.ff_fasttext import main
 
 def test_main():
     # Create a mock CategoryManager object to simulate the FastText model
@@ -13,7 +13,7 @@ def test_main():
 
     # Use CliRunner to simulate user input
     runner = CliRunner()
-    with patch('ff_fasttext_api.scripts.ff_fasttext.load', return_value=category_manager):
+    with patch('category_api.scripts.ff_fasttext.load', return_value=category_manager):
         result1 = runner.invoke(main, input="This is a test sentence.\n")
         result2 = runner.invoke(main, input="Another test sentence.\n")
         result3 = runner.invoke(main, input="\\quit\n")
