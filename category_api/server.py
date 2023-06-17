@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
-from category_api.settings import settings, settings_bonn
+from category_api.settings import settings, get_bonn_settings
 from category_api.healthcheck import Healthcheck
 from bonn.extract import load
 from bonn.utils import filter_by_snr
@@ -93,6 +93,7 @@ def make_app(category_manager, health_check):
     return app
 
 def create_app():
+    settings_bonn = get_bonn_settings()
     category_manager = load(settings.FIFU_FILE, settings_bonn)
 
     health = Healthcheck(status="OK", checks=[])
