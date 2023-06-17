@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
-from ff_fasttext_api.server import make_app
+from category_api.server import make_app
 from unittest.mock import MagicMock
 from bonn.extract import CategoryManager
-from ff_fasttext_api.healthcheck import Healthcheck
+from category_api.healthcheck import Healthcheck
 
 @pytest.fixture(scope='module')
 def test_client():

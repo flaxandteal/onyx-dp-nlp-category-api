@@ -1,4 +1,4 @@
-from ff_fasttext_api.settings import settings
+from category_api.settings import settings
 import sys
 import time
 from datetime import datetime
