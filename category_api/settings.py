@@ -19,5 +19,7 @@ settings.VERSION = "0.1.0"
 settings.START_TIME = settings.get("START_TIME", current_time)
 settings.GIT_COMMIT = settings.get("GIT_COMMIT")
 
+settings_bonn.reload()
+
 def get_bonn_settings():
     return settings_bonn
