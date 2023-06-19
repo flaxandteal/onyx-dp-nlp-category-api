@@ -33,15 +33,15 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 | CATEGORY_API_FIFU_FILE                      | "test_data/wiki.en.fifu"   | The location of the final fusion file
 | CATEGORY_API_THRESHOLD                      | 0.4                        | Threshold of what's considered a low-scoring category
 | --------core variables------------             | ---------                  | -----------
-| CATEGORY_CORE_CACHE_TARGET                  | "cache.json"               | Cache target
-| CATEGORY_CORE_ELASTICSEARCH_HOST            | "http://localhost:9200"    | Elasticsearch host
-| CATEGORY_CORE_REBUILD_CACHE                 | true                       | Should cache be rebuild
-| CATEGORY_CORE_TAXONOMY_LOCATION             | "taxonomy.json"            | Location of taxonomy 
-| CATEGORY_CORE_WEIGHTING__C                  | 1                          | Word vectors based on the words in the category name
-| CATEGORY_CORE_WEIGHTING__SC                 | 2                          | Word vectors based on the words in the sub-categories name
-| CATEGORY_CORE_WEIGHTING__SSC                | 2                          | Word vectors based on the words in the sub-sub-categories name
-| CATEGORY_CORE_WEIGHTING__WC                 | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
-| CATEGORY_CORE_WEIGHTING__WSSC               | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
+| BONN_CACHE_TARGET                  | "cache.json"               | Cache target
+| BONN_ELASTICSEARCH_HOST            | "http://localhost:9200"    | Elasticsearch host
+| BONN_REBUILD_CACHE                 | true                       | Should cache be rebuild
+| BONN_TAXONOMY_LOCATION             | "taxonomy.json"            | Location of taxonomy 
+| BONN_WEIGHTING__C                  | 1                          | Word vectors based on the words in the category name
+| BONN_WEIGHTING__SC                 | 2                          | Word vectors based on the words in the sub-categories name
+| BONN_WEIGHTING__SSC                | 2                          | Word vectors based on the words in the sub-sub-categories name
+| BONN_WEIGHTING__WC                 | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
+| BONN_WEIGHTING__WSSC               | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
 
 #### Set up taxonomy.json
 
@@ -70,7 +70,7 @@ make run-container
 
 1. setup .env file - `$ cp .env.local .env` 
 
-1. Make sure elasticsearch is running on this host CATEGORY_CORE_ELASTICSEARCH_HOST
+1. Make sure elasticsearch is running on this host BONN_ELASTICSEARCH_HOST
 
 1. Run make script
 
