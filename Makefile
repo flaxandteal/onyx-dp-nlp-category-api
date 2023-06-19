@@ -22,7 +22,7 @@ export CATEGORY_API_GIT_COMMIT ?= $(shell git rev-parse HEAD)
 export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 
-.PHONY: all audit build build-bin delimiter fmt lint model run-container run test test-component test-unit help
+.PHONY: all audit build build-bin delimiter deps fmt lint model run-container run test test-component test-unit help
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
@@ -32,7 +32,7 @@ audit: ## Makes sure dep are installed and audits code for vulnerable dependenci
 build: ## Builds docker image - name: category_api:latest
 	docker build -t category_api:latest .
 
-build-bin:  ## Builds a binary file called 
+build-bin: deps  ## Builds a binary file called 
 	poetry build
 
 cache/cache-cy.json:
@@ -49,7 +49,7 @@ deps: ## Installs dependencies
 delimiter-%:
 	@echo '===================${GREEN} $* ${RESET}==================='
 
-fmt: ## Makes sure dep are installed and formats code
+fmt: deps ## Makes sure dep are installed and formats code
 	poetry run isort category_api
 	poetry run black category_api
 
@@ -62,7 +62,7 @@ model: build-dev
 run: ## Runs category api locally using poetry uvicorn port: 28800
 	poetry run uvicorn category_api.main:app --host ${CATEGORY_API_HOST} --port ${CATEGORY_API_PORT}
 
-run-container: build ## Builds docker container, downloads fifu data and then runs docker container
+run-container: deps build test_data/wiki.en.fifu ## Builds docker container, downloads fifu data and then runs docker container
 	docker run -e CATEGORY_API_GIT_COMMIT=${CATEGORY_API_GIT_COMMIT} -e CATEGORY_API_VERSION=${CATEGORY_API_VERSION} -e CATEGORY_API_START_TIME=${CATEGORY_API_START_TIME} --network=host category_api
 
 test_data/wiki.en.fifu: ## Downloads/Updates fifu data inside the test_data dir
@@ -75,10 +75,10 @@ test_data/cc.cy.300.fifu: ## Downloads/Updates cc.cy.300.fifu data inside test_d
 
 test: unit test-component ## Makes sure dep are installed and runs all tests
 
-test-component: ## Makes sure dep are installed and runs component tests
+test-component: deps ## Makes sure dep are installed and runs component tests
 	poetry run pytest tests/api
 
-unit: ## Makes sure dep are installed and runs unit tests
+unit: deps ## Makes sure dep are installed and runs unit tests
 	poetry run pytest tests/unit
 
 help: ## Show this help.
