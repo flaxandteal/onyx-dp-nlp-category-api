@@ -3,9 +3,6 @@ FROM python:3.9
 RUN mkdir test_data
 COPY test_data test_data/
 
-COPY .env .
-COPY dist/category_api-0.1.0-py3-none-any.whl .
-
 RUN pip install category_api-0.1.0-py3-none-any.whl
 
 EXPOSE 28800
