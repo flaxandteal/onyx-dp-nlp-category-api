@@ -4,10 +4,8 @@ RUN mkdir test_data
 COPY test_data test_data/
 
 COPY .env .
-COPY dist/category_api-0.1.0-py3-none-any.whl .
+COPY dist/*.whl .
 
-RUN pip install category_api-0.1.0-py3-none-any.whl
-
-EXPOSE 28800
+RUN pip install *.whl
 
 CMD ["python", "-m", "category_api.main"]

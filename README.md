@@ -23,25 +23,29 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 
 ### Configuration
 
-| Environment variable                        | Default                    | Description
-| ----------------------------                | ---------                  | -----------
-| CATEGORY_API_HOST                           | 0.0.0.0                    | Host
-| CATEGORY_API_PORT                           | 28800                      | Port that the API is listening on
-| CATEGORY_API_DUMMY_RUN                      | false                      | Returns empty list for testing purposes
-| CATEGORY_API_DEBUG_LEVEL_FOR_DYNACONF       | "DEBUG"                    | Verbosity of dynaconf internal logging
-| CATEGORY_API_ENVVAR_PREFIX_FOR_DYNACONF     | "CATEGORY_API"          | The prefix of which variables to be taken into dynaconf configuration
-| CATEGORY_API_FIFU_FILE                      | "test_data/wiki.en.fifu"   | The location of the final fusion file
-| CATEGORY_API_THRESHOLD                      | 0.4                        | Threshold of what's considered a low-scoring category
-| --------core variables------------             | ---------                  | -----------
-| BONN_CACHE_TARGET                  | "cache.json"               | Cache target
-| BONN_ELASTICSEARCH_HOST            | "http://localhost:9200"    | Elasticsearch host
-| BONN_REBUILD_CACHE                 | true                       | Should cache be rebuild
-| BONN_TAXONOMY_LOCATION             | "taxonomy.json"            | Location of taxonomy 
-| BONN_WEIGHTING__C                  | 1                          | Word vectors based on the words in the category name
-| BONN_WEIGHTING__SC                 | 2                          | Word vectors based on the words in the sub-categories name
-| BONN_WEIGHTING__SSC                | 2                          | Word vectors based on the words in the sub-sub-categories name
-| BONN_WEIGHTING__WC                 | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
-| BONN_WEIGHTING__WSSC               | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
+| Environment variable                     | Default                    | Description
+| ----------------------------             | ---------                  | -----------
+| CATEGORY_API_HOST                        | 0.0.0.0                    | Host
+| CATEGORY_API_PORT                        | 28800                      | Port that the API is listening on
+| CATEGORY_API_DUMMY_RUN                   | false                      | Returns empty list for testing purposes
+| CATEGORY_API_DEBUG_LEVEL_FOR_DYNACONF    | "DEBUG"                    | Verbosity of dynaconf internal logging
+| CATEGORY_API_ENVVAR_PREFIX_FOR_DYNACONF  | "CATEGORY_API"          | The prefix of which variables to be taken into dynaconf configuration
+| CATEGORY_API_FIFU_FILE                   | "test_data/wiki.en.fifu"   | The location of the final fusion file
+| CATEGORY_API_THRESHOLD                   | 0.4                        | Threshold of what's considered a low-scoring category
+| --------core variables------------       | ---------                  | -----------
+| BONN_CACHE_TARGET                        | "cache.json"               | Cache target
+| BONN_ELASTICSEARCH_HOST                  | "http://localhost:9200"    | Elasticsearch host
+| BONN_REBUILD_CACHE                       | true                       | Should cache be rebuild
+| BONN_TAXONOMY_LOCATION                   | "test_data/taxonomy.json"  | Location of taxonomy 
+| BONN_ELASTICSEARCH_INDEX                 | "ons1639492069322"         | Location of taxonomy 
+| BONN_WEIGHTING__C                        | 1                          | Word vectors based on the words in the category name
+| BONN_WEIGHTING__SC                       | 2                          | Word vectors based on the words in the sub-categories name
+| BONN_WEIGHTING__SSC                      | 2                          | Word vectors based on the words in the sub-sub-categories name
+| BONN_WEIGHTING__WC                       | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
+| BONN_WEIGHTING__WSSC                     | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
+
+### Dependencies
+    Poetry >= 1.4.1
 
 #### Set up taxonomy.json
 
