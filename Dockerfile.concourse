@@ -3,7 +3,6 @@ FROM python:3.9
 RUN mkdir test_data
 COPY test_data test_data/
 
-COPY .env .
 COPY dist/*.whl .
 
 RUN pip install *.whl
