@@ -30,7 +30,7 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
-	docker build --build-arg HOST=${CATEGORY_API_HOST} --build-arg PORT=${CATEGORY_API_PORT} -t category_api:latest .
+	docker build -t category_api:latest .
 
 build-bin: deps  ## Builds a binary file called 
 	poetry build
