@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from typing import Optional
-from ff_fasttext_api.settings import settings
-from ff_fasttext_api.healthcheck import Healthcheck
+from category_api.settings import settings, get_bonn_settings
+from category_api.healthcheck import Healthcheck
 from bonn.extract import load
 from bonn.utils import filter_by_snr
 from .logger import logger
@@ -93,7 +93,8 @@ def make_app(category_manager, health_check):
     return app
 
 def create_app():
-    category_manager = load(settings.FIFU_FILE)
+    settings_bonn = get_bonn_settings()
+    category_manager = load(settings.FIFU_FILE, settings_bonn)
 
     health = Healthcheck(status="OK", checks=[])
 

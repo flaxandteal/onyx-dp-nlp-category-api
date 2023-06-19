@@ -11,7 +11,7 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 - `make help` - Displays a help menu with available `make` scripts
 - `make all` - Runs audit test and build commands
 - `make audit` - Audits and finds vulnerable dependencies
-- `make build` - Builds ./Dockerfile image name: ff_fasttext_api
+- `make build` - Builds ./Dockerfile image name: category_api
 - `make build-bin` - Build a wheel file in folder dist/
 - `make fmt` - Formats the code using go fmt and go vet
 - `make lint` - Automated checking of your source code for programmatic and stylistic errors
@@ -25,23 +25,23 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 
 | Environment variable                        | Default                    | Description
 | ----------------------------                | ---------                  | -----------
-| FF_FASTTEXT_API_CATEGORY_API_HOST           | 0.0.0.0                    | Host
-| FF_FASTTEXT_API_CATEGORY_API_PORT           | 28800                      | Port that the API is listening on
-| FF_FASTTEXT_API_DUMMY_RUN                   | false                      | Returns empty list for testing purposes
-| FF_FASTTEXT_API_DEBUG_LEVEL_FOR_DYNACONF    | "DEBUG"                    | Verbosity of dynaconf internal logging
-| FF_FASTTEXT_API_ENVVAR_PREFIX_FOR_DYNACONF  | "FF_FASTTEXT_API"          | The prefix of which variables to be taken into dynaconf configuration
-| FF_FASTTEXT_API_FIFU_FILE                   | "test_data/wiki.en.fifu"   | The location of the final fusion file
-| FF_FASTTEXT_API_THRESHOLD                   | 0.4                        | Threshold of what's considered a low-scoring category
-| --------core variables------------          | ---------                  | -----------
-| FF_FASTTEXT_CORE_CACHE_TARGET               | "cache.json"               | Cache target
-| FF_FASTTEXT_CORE_ELASTICSEARCH_HOST         | "http://localhost:9200"    | Elasticsearch host
-| FF_FASTTEXT_CORE_REBUILD_CACHE              | true                       | Should cache be rebuild
-| FF_FASTTEXT_CORE_TAXONOMY_LOCATION          | "taxonomy.json"            | Location of taxonomy 
-| FF_FASTTEXT_CORE_WEIGHTING__C               | 1                          | Word vectors based on the words in the category name
-| FF_FASTTEXT_CORE_WEIGHTING__SC              | 2                          | Word vectors based on the words in the sub-categories name
-| FF_FASTTEXT_CORE_WEIGHTING__SSC             | 2                          | Word vectors based on the words in the sub-sub-categories name
-| FF_FASTTEXT_CORE_WEIGHTING__WC              | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
-| FF_FASTTEXT_CORE_WEIGHTING__WSSC            | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
+| CATEGORY_API_HOST                           | 0.0.0.0                    | Host
+| CATEGORY_API_PORT                           | 28800                      | Port that the API is listening on
+| CATEGORY_API_DUMMY_RUN                      | false                      | Returns empty list for testing purposes
+| CATEGORY_API_DEBUG_LEVEL_FOR_DYNACONF       | "DEBUG"                    | Verbosity of dynaconf internal logging
+| CATEGORY_API_ENVVAR_PREFIX_FOR_DYNACONF     | "CATEGORY_API"          | The prefix of which variables to be taken into dynaconf configuration
+| CATEGORY_API_FIFU_FILE                      | "test_data/wiki.en.fifu"   | The location of the final fusion file
+| CATEGORY_API_THRESHOLD                      | 0.4                        | Threshold of what's considered a low-scoring category
+| --------core variables------------             | ---------                  | -----------
+| BONN_CACHE_TARGET                  | "cache.json"               | Cache target
+| BONN_ELASTICSEARCH_HOST            | "http://localhost:9200"    | Elasticsearch host
+| BONN_REBUILD_CACHE                 | true                       | Should cache be rebuild
+| BONN_TAXONOMY_LOCATION             | "taxonomy.json"            | Location of taxonomy 
+| BONN_WEIGHTING__C                  | 1                          | Word vectors based on the words in the category name
+| BONN_WEIGHTING__SC                 | 2                          | Word vectors based on the words in the sub-categories name
+| BONN_WEIGHTING__SSC                | 2                          | Word vectors based on the words in the sub-sub-categories name
+| BONN_WEIGHTING__WC                 | 6                          | Based on a bag of words found in the metadata of the datasets found in the categories
+| BONN_WEIGHTING__WSSC               | 8                          | Based on a bag of words found in the metadata of the datasets found in the sub-sub-categories
 
 #### Set up taxonomy.json
 
@@ -70,7 +70,7 @@ make run-container
 
 1. setup .env file - `$ cp .env.local .env` 
 
-1. Make sure elasticsearch is running on this host FF_FASTTEXT_CORE_ELASTICSEARCH_HOST
+1. Make sure elasticsearch is running on this host BONN_ELASTICSEARCH_HOST
 
 1. Run make script
 
