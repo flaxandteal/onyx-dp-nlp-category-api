@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from category_api.settings import settings, get_bonn_settings
 from contextlib import asynccontextmanager
-from typing import Optional
 from category_api.healthcheck import Healthcheck
 import bonn
-from bonn.extract import CategoryManager, load
+from bonn.extract import CategoryManager
 import importlib.util
 from .logger import logger
 from .data import retrieve

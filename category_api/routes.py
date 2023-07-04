@@ -1,5 +1,6 @@
 from .logger import logger
 from typing import Optional
+from fastapi import FastAPI
 from bonn.utils import filter_by_snr
 
 try:

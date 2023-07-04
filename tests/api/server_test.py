@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from category_api.server import make_app, lifespan, Controllers
+from category_api.server import make_app, Controllers
 from unittest.mock import MagicMock
 from bonn.extract import CategoryManager
 from category_api.healthcheck import Healthcheck
@@ -16,7 +16,6 @@ async def test_client(settings, settings_bonn) -> AsyncGenerator[TestClient, Non
         (0.8, ['cat3']),
     ]
 
-    health = MagicMock(spec=Healthcheck)
     controllers = Controllers()
     app = make_app(controllers, settings, settings_bonn)
     app.controllers = controllers
