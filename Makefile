@@ -46,12 +46,8 @@ deps-poetry:
 		poetry config virtualenvs.in-project true; \
 	fi; \
 
-deps: ## Installs dependencies
+deps: deps-poetry ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
-	if [ -z "$(EXISTS_POETRY)" ]; then \
-		pip -qq install poetry; \
-		poetry config virtualenvs.in-project true; \
-	fi; \
 		poetry install --quiet || poetry install; \
 	fi; \
 
