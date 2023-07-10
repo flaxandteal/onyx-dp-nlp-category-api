@@ -27,6 +27,7 @@ export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
 audit: deps ## Makes sure dep are installed and audits code for vulnerable dependencies
+	poetry lock --check
 	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
