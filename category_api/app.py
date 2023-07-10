@@ -1,2 +1,0 @@
-
-    app = FastAPI(lifespan=lifespan)
