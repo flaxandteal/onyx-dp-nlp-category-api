@@ -26,7 +26,7 @@ export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
-lock-check:
+lock-check: deps-poetry
 	poetry lock --check
 
 audit: lock-check deps ## Makes sure dep are installed and audits code for vulnerable dependencies
@@ -40,6 +40,12 @@ build-bin: deps  ## Builds a binary file called
 
 cache/cache-cy.json:
 	python translate_cache.py
+deps-poetry:
+	if [ -z "$(EXISTS_POETRY)" ]; then \
+		pip -qq install poetry; \
+		poetry config virtualenvs.in-project true; \
+	fi; \
+
 deps: ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
 	if [ -z "$(EXISTS_POETRY)" ]; then \
