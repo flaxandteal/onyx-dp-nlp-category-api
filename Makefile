@@ -22,7 +22,7 @@ export CATEGORY_API_GIT_COMMIT ?= $(shell git rev-parse HEAD)
 export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 
-.PHONY: all audit build build-bin delimiter fmt lint model run-container run test test-component test-unit help
+.PHONY: all audit build build-bin delimiter deps fmt lint model run run-container test test-component test-unit help
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
@@ -37,6 +37,7 @@ build-bin:  ## Builds a binary file called
 
 cache/cache-cy.json:
 	python translate_cache.py
+
 deps: ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
 	if [ -z "$(EXISTS_POETRY)" ]; then \
@@ -73,7 +74,7 @@ test_data/cc.cy.300.fifu: ## Downloads/Updates cc.cy.300.fifu data inside test_d
 	gunzip test_data/cc.cy.300.vec.gz
 	@$(MAKE) model INPUT_VEC=test_data/cc.cy.300.vec OUTPUT_FIFU=test_data/cc.cy.300.fifu
 
-test: unit test-component ## runs all tests
+test: test-unit test-component ## runs all tests
 
 test-component: ## runs component tests
 	poetry run pytest tests/api
