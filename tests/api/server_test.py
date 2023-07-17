@@ -1,12 +1,14 @@
 import pytest
 from fastapi.testclient import TestClient
-from category_api.server import make_app
+from category_api.server import make_app, Controllers
 from unittest.mock import MagicMock
 from bonn.extract import CategoryManager
 from category_api.healthcheck import Healthcheck
+from collections.abc import AsyncGenerator
+import pytest_asyncio
 
-@pytest.fixture(scope='module')
-def test_client():
+@pytest_asyncio.fixture()
+async def test_client(settings, settings_bonn) -> AsyncGenerator[TestClient, None]:
     # Create a mock CategoryManager object to simulate the FastText model
     category_manager = MagicMock(spec=CategoryManager)
     category_manager.test.return_value = [
@@ -14,23 +16,29 @@ def test_client():
         (0.8, ['cat3']),
     ]
 
-    health = MagicMock(spec=Healthcheck)
-    app = make_app(category_manager, health)
+    controllers = Controllers()
+    app = make_app(controllers, settings, settings_bonn)
+    app.controllers = controllers
+    app.controllers.healthcheck = Healthcheck(status="OK", checks=[])
+    app.controllers.category_manager = category_manager
     client = TestClient(app)
     yield client
 
 
-def test_health_check(test_client):
+@pytest.mark.asyncio
+async def test_health_check(test_client):
     response = test_client.get('/health')
     assert response.status_code == 200
 
-def test_get_categories(test_client):
+@pytest.mark.asyncio
+async def test_get_categories(test_client):
     response = test_client.get('/categories?query=test')
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
-def test_get_category(test_client):
+@pytest.mark.asyncio
+async def test_get_category(test_client):
     response = test_client.get('/categories/healthandsocialcare?query=dentist')
     assert response.status_code == 200
     assert isinstance(response.json(), dict)

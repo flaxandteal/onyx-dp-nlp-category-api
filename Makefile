@@ -22,11 +22,22 @@ export CATEGORY_API_GIT_COMMIT ?= $(shell git rev-parse HEAD)
 export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 
+<<<<<<< HEAD
 .PHONY: all audit build build-bin delimiter deps fmt lint model run run-container test test-component test-unit help
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
 audit: ## audits code for vulnerable dependencies
+=======
+.PHONY: all audit build build-bin delimiter deps fmt lint model run-container run test test-component test-unit help
+
+all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
+
+lock-check: deps-poetry
+	poetry lock --check
+
+audit: lock-check deps ## Makes sure dep are installed and audits code for vulnerable dependencies
+>>>>>>> 7253d8057c816c43d44220633a7d11164a276637
 	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
@@ -37,20 +48,21 @@ build-bin:  ## Builds a binary file called
 
 cache/cache-cy.json:
 	python translate_cache.py
-
-deps: ## Installs dependencies
-	@if [ -z "$(EXISTS_FLASK)" ]; then \
+deps-poetry:
 	if [ -z "$(EXISTS_POETRY)" ]; then \
 		pip -qq install poetry; \
 		poetry config virtualenvs.in-project true; \
 	fi; \
+
+deps: deps-poetry ## Installs dependencies
+	@if [ -z "$(EXISTS_FLASK)" ]; then \
 		poetry install --quiet || poetry install; \
 	fi; \
 
 delimiter-%:
 	@echo '===================${GREEN} $* ${RESET}==================='
 
-fmt: ## formats code
+fmt: deps ## Makes sure dep are installed and formats code
 	poetry run isort category_api
 	poetry run black category_api
 

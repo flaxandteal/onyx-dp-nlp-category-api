@@ -32,6 +32,7 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 | CATEGORY_API_ENVVAR_PREFIX_FOR_DYNACONF  | "CATEGORY_API"          | The prefix of which variables to be taken into dynaconf configuration
 | CATEGORY_API_FIFU_FILE                   | "test_data/wiki.en.fifu"   | The location of the final fusion file
 | CATEGORY_API_THRESHOLD                   | 0.4                        | Threshold of what's considered a low-scoring category
+| CATEGORY_API_CACHE_S3_BUCKET             |                            | S3 for bucket for cache files in format "s3://"
 | --------core variables------------       | ---------                  | -----------
 | BONN_CACHE_TARGET                        | "cache.json"               | Cache target
 | BONN_ELASTICSEARCH_HOST                  | "http://localhost:9200"    | Elasticsearch host
@@ -46,6 +47,8 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 
 ### Dependencies
     Poetry >= 1.4.1
+
+In addition, S3 authentication is done within `boto3`, which uses the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables, if set.
 
 #### Set up taxonomy.json
 
