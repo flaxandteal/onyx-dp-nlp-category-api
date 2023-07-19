@@ -22,13 +22,6 @@ export CATEGORY_API_GIT_COMMIT ?= $(shell git rev-parse HEAD)
 export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
 
-<<<<<<< HEAD
-.PHONY: all audit build build-bin delimiter deps fmt lint model run run-container test test-component test-unit help
-
-all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
-
-audit: ## audits code for vulnerable dependencies
-=======
 .PHONY: all audit build build-bin delimiter deps fmt lint model run-container run test test-component test-unit help
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
@@ -37,7 +30,6 @@ lock-check: deps-poetry
 	poetry lock --check
 
 audit: lock-check deps ## Makes sure dep are installed and audits code for vulnerable dependencies
->>>>>>> 7253d8057c816c43d44220633a7d11164a276637
 	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
@@ -104,4 +96,3 @@ help: ## Show this help.
 		if (/^[a-zA-Z_-]+:.*?##.*$$/) {printf "    ${YELLOW}%-20s${GREEN}%s${RESET}\n", $$1, $$2} \
 		else if (/^## .*$$/) {printf "  ${CYAN}%s${RESET}\n", substr($$1,4)} \
 		}' $(MAKEFILE_LIST)
-
