@@ -26,7 +26,7 @@ export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
-lock-check: deps-poetry
+lock-check: deps
 	poetry lock --check
 
 audit: lock-check deps ## Makes sure dep are installed and audits code for vulnerable dependencies
