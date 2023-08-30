@@ -1,5 +1,4 @@
 ---
-
 platform: linux
 
 image_resource:
@@ -19,4 +18,4 @@ caches:
   - path: dp-nlp-category-api/.venv/
 
 run:
-  path: dp-nlp-category-api/ci/scripts/lint.sh
+  path: dp-nlp-category-api/ci/scripts/audit.sh
