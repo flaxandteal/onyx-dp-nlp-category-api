@@ -32,10 +32,10 @@ lock-check: deps-poetry
 audit: lock-check deps ## Makes sure dep are installed and audits code for vulnerable dependencies
 	poetry run safety check
 
-build: ## Builds docker image - name: category_api:latest
+build: lock-check ## Builds docker image - name: category_api:latest
 	docker build -t category_api:latest .
 
-build-bin:  ## Builds a binary file called 
+build-bin: lock-check ## Builds a binary file called 
 	poetry build
 
 cache/cache-cy.json:
@@ -58,7 +58,7 @@ fmt: deps ## Makes sure dep are installed and formats code
 	poetry run isort category_api
 	poetry run black category_api
 
-lint: ## lints code
+lint: lock-check ## lints code
 	poetry run ruff check .
 
 model: build-dev
@@ -80,10 +80,10 @@ test_data/cc.cy.300.fifu: ## Downloads/Updates cc.cy.300.fifu data inside test_d
 
 test: test-unit test-component ## runs all tests
 
-test-component: ## runs component tests
+test-component: lock-check ## runs component tests
 	poetry run pytest tests/api
 
-test-unit: ## runs unit tests
+test-unit: lock-check ## runs unit tests
 	poetry run pytest tests/unit
 
 help: ## Show this help.
