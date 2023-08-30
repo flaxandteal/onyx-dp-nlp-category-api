@@ -7,9 +7,16 @@ image_resource:
   source:
     repository: python
     tag: 3.9
-    
+
+params:
+  POETRY_CACHE_DIR: .poetry/
+
 inputs:
   - name: dp-nlp-category-api
+
+caches:
+  - path: dp-nlp-category-api/.poetry/
+  - path: dp-nlp-category-api/.venv/
 
 run:
   path: dp-nlp-category-api/ci/scripts/lint.sh
