@@ -1,13 +1,18 @@
-from .logger import logger
 from typing import Optional
-from fastapi import FastAPI
+
 from bonn.utils import filter_by_snr
+from fastapi import FastAPI
+
+from category_api.logger import setup_logging
+
+logger = setup_logging()
 
 try:
     if not app:
         app = FastAPI()
 except NameError:
     app = FastAPI()
+
 
 @app.get("/categories/{cat}")
 def get_category(cat: str, query: str):
@@ -28,7 +33,8 @@ def get_category(cat: str, query: str):
             event="category testing failed",
             exception=e,
             query=query,
-            category=cat
+            category=cat,
+            severity=1,
         )
         return {
             "message": "Internal Server Error",
@@ -52,12 +58,11 @@ def get_category(cat: str, query: str):
         },
     }
 
+
 @app.get("/categories")
 def get_categories(query: str, snr: Optional[float] = 1.275):
     if app.settings.DUMMY_RUN:
-        logger.warning(
-            event="dummy run is enabled, returning empty list", severity=2
-        )
+        logger.warning(event="dummy run is enabled, returning empty list", severity=2)
         return []
 
     try:
@@ -66,15 +71,20 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
             event="testing categories",
             query=query,
             snr=snr,
+            severity=0,
         )
 
         if snr is not None:
             categories = filter_by_snr(categories, snr)
-            logger.info("successfully filtered categories by SNR", snr=snr)
+            logger.info(
+                event="successfully filtered categories by SNR",
+                snr=snr,
+                severity=0,
+            )
     except Exception as e:
         logger.error(
             event="testing and filtration of categories failed",
-            error=str(e),
+            stack_trace=str(e),
             severity=1,
         )
         return {
@@ -83,8 +93,11 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
         }
 
     return [
-        {"s": float(c[0]), "c": list(c[1])} for c in categories if c[0] > app.settings.THRESHOLD
+        {"s": float(c[0]), "c": list(c[1])}
+        for c in categories
+        if c[0] > app.settings.THRESHOLD
     ]
+
 
 @app.get("/health")
 def health():
