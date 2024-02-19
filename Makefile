@@ -26,10 +26,10 @@ export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
-lock-check: ## Checks lockfile
+lock-check: deps ## Checks lockfile
 	poetry lock --check
 
-audit: lock-check ## installed and audits code for vulnerable dependencies
+audit: deps lock-check ## installed and audits code for vulnerable dependencies
 	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
@@ -58,7 +58,7 @@ fmt: ## installed and formats code
 	poetry run isort category_api
 	poetry run black category_api
 
-lint: ## installed and lints code
+lint: deps ## installed and lints code
 	poetry run ruff check .
 
 model: build-dev
@@ -78,12 +78,12 @@ test_data/cc.cy.300.fifu: ## Downloads/Updates cc.cy.300.fifu data inside test_d
 	gunzip test_data/cc.cy.300.vec.gz
 	@$(MAKE) model INPUT_VEC=test_data/cc.cy.300.vec OUTPUT_FIFU=test_data/cc.cy.300.fifu
 
-test: unit test-component ## Makes sure dep are installed and runs all tests
+test: deps unit test-component ## Makes sure dep are installed and runs all tests
 
-test-component: ## installed and runs component tests
+test-component: deps ## installed and runs component tests
 	poetry run pytest tests/api
 
-unit: ## installed and runs unit tests
+unit: deps ## installed and runs unit tests
 	poetry run pytest tests/unit
 
 help: ## Show this help.
