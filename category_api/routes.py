@@ -31,7 +31,7 @@ def get_category(cat: str, query: str):
                 "scoring": scoring["tags"],
             },
         )
-    except Exception as e:
+    except Exception:
         logger.error(
             event="category testing failed",
             data={
@@ -83,7 +83,7 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
             categories = filter_by_snr(categories, snr)
             logger.info(event=f"successfully filtered categories by SNR: {snr}")
 
-    except Exception as e:
+    except Exception:
         traceback.format_exception()
         logger.error(
             event="testing and filtration of categories failed",

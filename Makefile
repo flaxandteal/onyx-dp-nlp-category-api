@@ -42,12 +42,13 @@ cache/cache-cy.json:
 	python translate_cache.py
 
 deps: ## Installs dependencies
-	@if ! command -v poetry &> /dev/null; then \
-		echo "Installing dependencies" \
+	@if command -v poetry &> /dev/null; then \
+		echo "Installing poetry first then dependencies"; \
+		pip install poetry; \
+		poetry config virtualenvs.in-project true; \
 		poetry install; \
 	else \
-		pip -qq install poetry; \
-		poetry config virtualenvs.in-project true; \
+		echo "Installing dependencies"; \
 		poetry install; \
 	fi
 

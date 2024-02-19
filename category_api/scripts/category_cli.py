@@ -14,7 +14,7 @@ def main():
     try:
         category_manager = load(settings.FIFU_FILE)
         logger.info(event="Category manager loaded successfully")
-    except Exception as e:
+    except Exception:
         logger.error(
             event="Failed to load category manager", error=traceback.format_exception()
         )
@@ -36,7 +36,7 @@ def main():
                 },
             )
             print("\n".join(categories))
-        except Exception as e:
+        except Exception:
             logger.error(
                 event="Failed to get categories for input",
                 data=word,
