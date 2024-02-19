@@ -8,11 +8,21 @@ import structlog._log_levels
 from category_api.settings import settings
 
 
+def add_severity_level(logger, method_name, event_dict):
+    if method_name == "info":
+        event_dict[0][0]["severity"] = 0
+    elif method_name == "error":
+        event_dict[0][0]["severity"] = 1
+
+    return event_dict
+
+
 def setup_logging():
     shared_processors = []
     processors = shared_processors + [
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+        add_severity_level,
     ]
     structlog.configure(
         cache_logger_on_first_use=True,
@@ -53,4 +63,6 @@ def setup_logging():
     return structlog.get_logger(
         namespace=settings.NAMESPACE,
         created_at=datetime.utcnow().isoformat(),
+        event="",
+        severity=0,  # default
     )

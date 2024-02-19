@@ -21,12 +21,14 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
 
         return dict(
             namespace=settings.NAMESPACE,
-            remote_ip=record.args[0],
-            method=record.args[1],
-            event="making request",
-            path=f'{settings.HOST}:{settings.PORT}{record.args[2]}',
-            status=str(record.args[4]),
             created_at=datetime.datetime.now().isoformat(),
+            event="making request",
+            data={
+                "remote_ip": record.args[0],
+                "method": record.args[1],
+                "path": f'{settings.HOST}:{settings.PORT}{record.args[2]}',
+                "status": str(record.args[4]),
+            },
             severity=severity,
         )
 

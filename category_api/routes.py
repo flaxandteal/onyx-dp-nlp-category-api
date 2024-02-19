@@ -1,3 +1,4 @@
+import traceback
 from typing import Optional
 
 from bonn.utils import filter_by_snr
@@ -23,18 +24,21 @@ def get_category(cat: str, query: str):
         )
         logger.info(
             event="category tested",
-            category=category,
-            query=query,
-            weightings=scoring["weightings"],
-            scoring=scoring["tags"],
+            data={
+                "category": category,
+                "query": query,
+                "weightings": scoring["weightings"],
+                "scoring": scoring["tags"],
+            },
         )
     except Exception as e:
         logger.error(
             event="category testing failed",
-            exception=e,
-            query=query,
-            category=cat,
-            severity=1,
+            data={
+                "query": query,
+                "category": cat,
+            },
+            error=traceback.format_exception(),
         )
         return {
             "message": "Internal Server Error",
@@ -62,30 +66,32 @@ def get_category(cat: str, query: str):
 @app.get("/categories")
 def get_categories(query: str, snr: Optional[float] = 1.275):
     if app.settings.DUMMY_RUN:
-        logger.warning(event="dummy run is enabled, returning empty list", severity=2)
+        logger.warning(event="dummy run is enabled, returning empty list")
         return []
 
     try:
         categories = app.controllers.category_manager.test(query.strip(), "onyxcats")
         logger.info(
             event="testing categories",
-            query=query,
-            snr=snr,
-            severity=0,
+            data={
+                "query": query,
+                "snr": snr,
+            },
         )
 
         if snr is not None:
             categories = filter_by_snr(categories, snr)
-            logger.info(
-                event="successfully filtered categories by SNR",
-                snr=snr,
-                severity=0,
-            )
+            logger.info(event=f"successfully filtered categories by SNR: {snr}")
+
     except Exception as e:
+        traceback.format_exception()
         logger.error(
             event="testing and filtration of categories failed",
-            stack_trace=str(e),
-            severity=1,
+            data={
+                "query": query,
+                "snr": snr,
+            },
+            error=traceback.format_exception(),
         )
         return {
             "message": "Internal Server Error",
