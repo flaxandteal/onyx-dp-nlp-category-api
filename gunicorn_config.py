@@ -47,7 +47,8 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         payload["created_at"] = payload["time"]
         payload["event"] = record.getMessage()
         payload["level"] = record.levelname
-        payload["severity"] = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+        payload["severity"] = 3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
+        payload.pop('taskName', None)
         payload.pop('color_message', None)
         payload.pop('time', None)
         payload.pop('message', None)

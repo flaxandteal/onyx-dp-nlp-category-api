@@ -10,7 +10,7 @@ from category_api.settings import settings
 
 def add_severity_level(logger, method_name, event_dict):
     if method_name == "info":
-        event_dict[0][0]["severity"] = 0
+        event_dict[0][0]["severity"] = 3
     elif method_name == "error":
         event_dict[0][0]["severity"] = 1
 
@@ -64,5 +64,5 @@ def setup_logging():
         namespace=settings.NAMESPACE,
         created_at=datetime.utcnow().isoformat(),
         event="",
-        severity=0,  # default
+        severity=3,  # default
     )
