@@ -19,7 +19,7 @@ RETRIEVABLE_FILE_KEYS = [
 @contextmanager
 def _make_temporary_files(settings, settings_bonn):
     url = urlparse(settings.CACHE_S3_BUCKET)
-    logger.info(event=f"S3 bucket for cache setup up to: {url}")
+    logger.info(event="S3 bucket for cache setup up to:", data={url})
 
     s3 = boto3.client("s3")
     temporary_files = []
@@ -34,11 +34,15 @@ def _make_temporary_files(settings, settings_bonn):
                 with open(temporary_file.name, "wb") as fh:
                     s3.download_fileobj(url.hostname, filename, fh)
 
-                logger.info(event=f"retrieved cached file ({key}: {filename})")
+                logger.info(
+                    event="retrieved cached file",
+                    data={"key": key, "filename": filename},
+                )
                 temporary_files.append((is_bonn, key, temporary_file))
             else:
                 logger.info(
-                    event=f"used local path rather than cached file ({key}: {filename})"
+                    event="used local path rather than cached file",
+                    data={"key": key, "filename": filename},
                 )
         yield temporary_files
 

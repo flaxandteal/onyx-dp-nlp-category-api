@@ -81,7 +81,7 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
 
         if snr is not None:
             categories = filter_by_snr(categories, snr)
-            logger.info(event=f"successfully filtered categories by SNR: {snr}")
+            logger.info(event="successfully filtered categories by SNR", data={snr})
 
     except Exception:
         traceback.format_exception()
