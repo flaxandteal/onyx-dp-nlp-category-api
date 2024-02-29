@@ -27,6 +27,7 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 | ----------------------------             | ---------                  | -----------
 | CATEGORY_API_HOST                        | 0.0.0.0                    | Host
 | CATEGORY_API_PORT                        | 28800                      | Port that the API is listening on
+| CATEGORY_API_TIMEOUT                     | 0 (off)                    | Seconds to wait before killing a worker (including startup time)
 | CATEGORY_API_DUMMY_RUN                   | false                      | Returns empty list for testing purposes
 | CATEGORY_API_DEBUG_LEVEL_FOR_DYNACONF    | "DEBUG"                    | Verbosity of dynaconf internal logging
 | CATEGORY_API_ENVVAR_PREFIX_FOR_DYNACONF  | "CATEGORY_API"          | The prefix of which variables to be taken into dynaconf configuration

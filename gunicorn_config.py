@@ -96,3 +96,4 @@ logconfig_dict = {
 }
 
 bind = f"0.0.0.0:{settings.PORT}"
+timeout = int(settings.TIMEOUT or 0)

@@ -13,6 +13,7 @@ settings = Dynaconf(
 settings.reload()
 
 settings.PORT = settings.get("PORT", 28800)
+settings.TIMEOUT = settings.get("TIMEOUT", 0)
 settings.HOST = settings.get("HOST", "0.0.0.0")
 settings.NAMESPACE = settings.get("NAMESPACE", "dp_nlp_category_api")
 settings.FIFU_FILE = settings.get("FIFU_FILE", "test_data/wiki.en.fifu")
