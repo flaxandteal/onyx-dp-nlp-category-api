@@ -36,8 +36,7 @@ job "dp-nlp-category-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["python", "-m", "category_api.main"]
-
+        args = ["python", "-m", "gunicorn", "category_api.main:app", "-c", "gunicorn_config.py", "-k", "uvicorn.workers.UvicornWorker"]
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
       }
@@ -100,7 +99,7 @@ job "dp-nlp-category-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["python", "-m", "category_api.main"]
+        args = ["python", "-m", "gunicorn", "category_api.main:app", "-c", "gunicorn_config.py", "-k", "uvicorn.workers.UvicornWorker"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
       }
