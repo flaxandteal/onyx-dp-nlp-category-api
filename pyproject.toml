@@ -37,6 +37,7 @@ ruff = "^0.0.264"
 boto3 = "^1.26.165"
 json-log-formatter = "^0.5.2"
 gunicorn = "^21.2.0"
+pip = ">=23.3"
 
 
 [tool.poetry.scripts]

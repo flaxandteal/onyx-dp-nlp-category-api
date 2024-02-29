@@ -793,6 +793,17 @@ files = [
 pyparsing = ">=2.0.2,<3.0.5 || >3.0.5"
 
 [[package]]
+name = "pip"
+version = "24.0"
+description = "The PyPA recommended tool for installing Python packages."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pip-24.0-py3-none-any.whl", hash = "sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc"},
+    {file = "pip-24.0.tar.gz", hash = "sha256:ea9bd1a847e8c5774a5777bb398c19e80bcd4e2aa16a4b301b718fe6f593aba2"},
+]
+
+[[package]]
 name = "pip-requirements-parser"
 version = "32.0.1"
 description = "pip requirements parser - a mostly correct pip requirements parsing library because it uses pip's own code."
@@ -1563,4 +1574,4 @@ test = ["pytest (>=6.0.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "05d9154049195ac6e50be56dcef3bb9183698d7a9d4780ec1d5fff87bd602452"
+content-hash = "6a758d453133e7b9acc2dc5c500f074a460ecc7e9a4b73681f6e01f0f09300e2"
