@@ -17,7 +17,9 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         # Convert the log record to a JSON object.
         # See https://docs.gunicorn.org/en/stable/settings.html#access-log-format
 
-        severity = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+        severity = (
+            3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
+        )
 
         return dict(
             namespace=settings.NAMESPACE,
