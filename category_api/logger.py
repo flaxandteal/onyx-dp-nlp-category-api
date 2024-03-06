@@ -62,7 +62,7 @@ def setup_logging():
 
     return structlog.get_logger(
         namespace=settings.NAMESPACE,
-        created_at=datetime.utcnow().isoformat(),
+        created_at=datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
         event="",
         severity=3,  # default
     )

@@ -23,7 +23,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
 
         return dict(
             namespace=settings.NAMESPACE,
-            created_at=datetime.datetime.now().isoformat(),
+            created_at=datetime.datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
             event="making request",
             data={
                 "remote_ip": record.args[0],
@@ -46,7 +46,10 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
             event, extra, record
         )
         payload["namespace"] = settings.NAMESPACE
-        payload["created_at"] = payload["time"]
+        # json_log_formatter sets "time" using datetime.utcnow()
+        # https://github.com/marselester/json-log-formatter/blob/
+        #       bf41c57913a92a9b556d9fc0e3165e97daa38f8e/json_log_formatter/__init__.py#L123)
+        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
         payload["event"] = record.getMessage()
         payload["level"] = record.levelname
         payload["severity"] = 3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
