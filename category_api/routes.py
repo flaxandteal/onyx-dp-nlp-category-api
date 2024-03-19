@@ -4,9 +4,7 @@ from typing import Optional
 from bonn.utils import filter_by_snr
 from fastapi import FastAPI
 
-from category_api.logger import setup_logging
-
-logger = setup_logging()
+from category_api.logger import format_errors, logger
 
 try:
     if not app:
@@ -31,15 +29,12 @@ def get_category(cat: str, query: str):
                 "scoring": scoring["tags"],
             },
         )
-    except Exception:
+    except Exception as e:
         logger.error(
-            event="category testing failed",
-            data={
-                "query": query,
-                "category": cat,
-            },
-            error=traceback.format_exception(),
+            event="error retrieving key from database ",
+            errors=format_errors(e, trace=traceback.format_exc()),
         )
+
         return {
             "message": "Internal Server Error",
             "error code": "",  # to be agreed upon
@@ -71,28 +66,17 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
 
     try:
         categories = app.controllers.category_manager.test(query.strip(), "onyxcats")
-        logger.info(
-            event="testing categories",
-            data={
-                "query": query,
-                "snr": snr,
-            },
-        )
 
         if snr is not None:
             categories = filter_by_snr(categories, snr)
             logger.info(event="successfully filtered categories by SNR", data={snr})
 
-    except Exception:
-        traceback.format_exception()
+    except Exception as e:
         logger.error(
-            event="testing and filtration of categories failed",
-            data={
-                "query": query,
-                "snr": snr,
-            },
-            error=traceback.format_exception(),
+            event="error retrieving key from database ",
+            errors=format_errors(e, trace=traceback.format_exc()),
         )
+
         return {
             "message": "Internal Server Error",
             "error code": "",  # to be aggreed upon

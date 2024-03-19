@@ -6,12 +6,9 @@ from bonn.extract import CategoryManager
 from fastapi import FastAPI
 
 from category_api.healthcheck import Healthcheck
-from category_api.logger import setup_logging
 from category_api.settings import get_bonn_settings, settings
 
 from .data import retrieve
-
-logger = setup_logging()
 
 
 class Controllers:
@@ -46,8 +43,6 @@ async def lifespan(app: FastAPI):
 
 
 def create_app():
-    logger.info(event="successfully loaded category manager")
-
     controllers = Controllers()
     settings_bonn = get_bonn_settings()
     app = make_app(controllers, settings, settings_bonn)

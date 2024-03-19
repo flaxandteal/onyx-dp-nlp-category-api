@@ -6,6 +6,7 @@ import structlog
 import structlog._log_levels
 
 from category_api.settings import settings
+from gunicorn_config import format_stack_trace
 
 
 def add_severity_level(logger, method_name, event_dict):
@@ -15,6 +16,21 @@ def add_severity_level(logger, method_name, event_dict):
         event_dict[0][0]["severity"] = 1
 
     return event_dict
+
+
+def format_errors(*excs: BaseException, trace=None):
+    errors = []
+
+    for exc in excs:
+        error = {
+            "message": str(exc),
+        }
+        if trace:
+            error["error"] = format_stack_trace(trace)
+
+        errors.append(error)
+
+    return errors
 
 
 def setup_logging():
@@ -66,3 +82,6 @@ def setup_logging():
         event="",
         severity=3,  # default
     )
+
+
+logger = setup_logging()

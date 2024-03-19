@@ -19,7 +19,7 @@ RETRIEVABLE_FILE_KEYS = [
 @contextmanager
 def _make_temporary_files(settings, settings_bonn):
     url = urlparse(settings.CACHE_S3_BUCKET)
-    logger.info(event="S3 bucket for cache setup up to:", data={url})
+    logger.info(event="S3 bucket for cache setup up to:", data={"URL": url})
 
     s3 = boto3.client("s3")
     temporary_files = []
