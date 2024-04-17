@@ -8,37 +8,58 @@ from category_api.settings import settings
 import re
 
 def format_stack_trace(stack_trace):
-    # Split the stack trace into lines removing caret chars
-    lines = "".join(stack_trace.split("\n")).replace("^", "")
+    # Remove the caret chars
+    clean_trace = stack_trace.replace("^", "")
 
-    # Split by File as there's always 1 file per entry
-    lines = lines.split("File")
-
-    # Remove first entry as it's always Traceback(mostrecentcalllast)
-    lines = lines[1:]
+    # Group the stack calls together into single lines
+    trace_with_grouped_calls = re.sub(r'File\s(.*)\n', '\\1 ', clean_trace)
+    traces_split = re.split(r'Traceback.*\n', trace_with_grouped_calls)
 
     # Initialize an empty list to store formatted stack trace entries
-    formatted_stack_trace = []
-    
-    # Iterate through each line in the stack trace
-    for line in lines:
-        # split by "," to separate file_path, line_number, function_name
-        line = line.split(",")
-        file_path, line_number, function_name = line[0], line[1], line[2]
+    formatted_stack_traces = []
 
-        # remove unnecessary spaces in function name
-        function_name = re.sub(r'\s{2,}', ' ', function_name).rstrip()
+    for trace in traces_split:
+        # Remove empty messages
+        if(len(trace.strip()) == 0):
+            continue
+        # Remove messages not part of trace
+        clean_trace = re.sub(r'\n\n.*', '', trace).strip()
+        lines = clean_trace.split('\n')
 
-        formatted_entry = {
-            "file": file_path.strip("\""),
-            "function": function_name,
-            # remove unnecessary spaces in line
-            "line": "".join(line_number.split("line")).strip(" "),
+        formatted_errors = []
+
+        # Iterate through each line in the stack trace
+        for line in lines:
+            # remove blank lines
+            if(len(line.strip()) == 0):
+                continue
+
+            # don't include lines that aren't stack calls
+            if (line.count(',') < 2):
+                continue
+            else:
+                # split by "," to separate file_path, line_number, function_name
+                line = line.split(",", 2)
+                file_path, line_number, function_name = line[0], line[1], line[2]
+
+                # remove unnecessary spaces in function name
+                function_name = re.sub(r'\s{2,}', ' ', function_name).strip()
+
+                formatted_entry = {
+                    "file": file_path.strip().strip("\""),
+                    "function": function_name,
+                    # remove unnecessary spaces in line
+                    "line": "".join(line_number.split("line")).strip(),
+                }
+                formatted_errors.append(formatted_entry)
+        
+        formatted_trace = {
+            'message': lines[-1],
+            'stack_trace': formatted_errors,
         }
+        formatted_stack_traces.append(formatted_trace)
 
-        formatted_stack_trace.append(formatted_entry)
-
-    return formatted_stack_trace
+    return formatted_stack_traces
 
 class SuppressInfoFilter(logging.Filter):
     def filter(self, record):
@@ -113,14 +134,11 @@ class JsonServerErrorFormatter(json_log_formatter.JSONFormatter):
         event: str,
         extra: dict[str, str | int | float],
         record: logging.LogRecord,
-    ) -> dict[str, str | int | float]:
-        errors=[
-                {
-                    **({'message': record.getMessage().strip().splitlines()[-1]} if "Traceback" in record.getMessage() else {"message": record.getMessage()}),
-                    **({'error': format_stack_trace(record.getMessage())} if "Traceback" in record.getMessage() else {}),
-                }
-            ]
-
+    ) -> dict[str, str | int | float | list]:
+        if "Traceback" in record.getMessage():
+            errors=format_stack_trace(record.getMessage()) 
+        else:
+            errors = {"errors": [{"message": record.getMessage()}]}
         return dict(
             namespace=settings.NAMESPACE,
             created_at=datetime.datetime.now().isoformat(timespec="milliseconds") + "Z",

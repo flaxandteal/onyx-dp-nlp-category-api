@@ -136,9 +136,9 @@ class TestLogFormatting(unittest.TestCase):
 
             # Error logs 
             self.assertEqual(expected["errors"][0]["message"], formatted_log["errors"][0]["message"])
-            assert "routing.py" in formatted_log["errors"][0]["error"][0]["file"]
-            assert "self.lifespan_context(app) as maybe_state:" in formatted_log["errors"][0]["error"][0]["function"]
-            assert formatted_log["errors"][0]["error"][0]["line"]
+            assert "routing.py" in formatted_log["errors"][0]["stack_trace"][0]["file"]
+            assert "self.lifespan_context(app) as maybe_state:" in formatted_log["errors"][0]["stack_trace"][0]["function"]
+            assert formatted_log["errors"][0]["stack_trace"][0]["line"]
             assert parsable_isoformat(formatted_log["created_at"])
             
 def parsable_isoformat(time):
