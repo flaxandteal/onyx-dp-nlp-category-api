@@ -25,7 +25,7 @@ COPY --from=ff /app/build/target/wheels/*cp39*.whl /app
 
 WORKDIR /app
 
-COPY .env /app/
+COPY .env.local /app/
 COPY pyproject.toml /app
 COPY poetry.lock /app
 COPY gunicorn_config.py /app
