@@ -30,7 +30,7 @@ lock-check: deps ## Checks lockfile
 	poetry lock --check
 
 audit: deps lock-check ## installed and audits code for vulnerable dependencies
-	poetry run safety check -i 51457
+	poetry run safety check
 
 build: ## Builds docker image - name: category_api:latest
 	docker build -t category_api:latest .
