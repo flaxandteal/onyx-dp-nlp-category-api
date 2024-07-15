@@ -5,10 +5,12 @@ import bonn
 from bonn.extract import CategoryManager
 from fastapi import FastAPI
 
+from category_api.data import retrieve
 from category_api.healthcheck import Healthcheck
+from category_api.logger import setup_logging
 from category_api.settings import get_bonn_settings, settings
 
-from .data import retrieve
+logger = setup_logging()
 
 
 class Controllers:

@@ -8,13 +8,29 @@ import structlog._log_levels
 from category_api.settings import settings
 from gunicorn_config import format_stack_trace
 
+severity_info = 3
+severity_warning = 2
+severity_error = 1
+severity_fatal = 0
+
+
+def level_to_severity(level):
+    level_int = logging.getLevelName(level.upper())
+    match level_int:
+        case logging.INFO:
+            return severity_info
+        case logging.WARNING:
+            return severity_warning
+        case logging.ERROR:
+            return severity_error
+        case logging.FATAL:
+            return severity_fatal
+        case _:
+            return severity_info
+
 
 def add_severity_level(logger, method_name, event_dict):
-    if method_name == "info":
-        event_dict[0][0]["severity"] = 3
-    elif method_name == "error":
-        event_dict[0][0]["severity"] = 1
-
+    event_dict[0][0]["severity"] = level_to_severity(event_dict[0][0]["level"])
     return event_dict
 
 
@@ -36,6 +52,7 @@ def format_errors(*excs: BaseException, trace=None):
 def setup_logging():
     shared_processors = []
     processors = shared_processors + [
+        structlog.stdlib.add_log_level,
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         add_severity_level,
@@ -67,7 +84,7 @@ def setup_logging():
             },
         },
         "loggers": {
-            "": {
+            "category_api": {
                 "handlers": ["stream"],
                 "level": "DEBUG",
                 "propagate": True,

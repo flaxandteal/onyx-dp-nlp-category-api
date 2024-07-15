@@ -4,7 +4,11 @@ from typing import Optional
 from bonn.utils import filter_by_snr
 from fastapi import FastAPI
 
-from category_api.logger import format_errors, logger
+from category_api.logger import format_errors
+
+from .logger import setup_logging
+
+logger = setup_logging()
 
 try:
     if not app:
@@ -31,13 +35,13 @@ def get_category(cat: str, query: str):
         )
     except Exception as e:
         logger.error(
-            event="error retrieving key from database ",
+            event="error retrieving key from database",
             errors=format_errors(e, trace=traceback.format_exc()),
         )
 
         return {
             "message": "Internal Server Error",
-            "error code": "",  # to be agreed upon
+            "error code": 500,
         }
 
     return {
@@ -69,17 +73,19 @@ def get_categories(query: str, snr: Optional[float] = 1.275):
 
         if snr is not None:
             categories = filter_by_snr(categories, snr)
-            logger.info(event="successfully filtered categories by SNR", data={snr})
+            logger.info(
+                event="successfully filtered categories by SNR", data={"snr": snr}
+            )
 
     except Exception as e:
         logger.error(
-            event="error retrieving key from database ",
+            event="error retrieving key from database",
             errors=format_errors(e, trace=traceback.format_exc()),
         )
 
         return {
             "message": "Internal Server Error",
-            "error code": "",  # to be aggreed upon
+            "error code": 500,
         }
 
     return [
