@@ -38,9 +38,6 @@ build: ## Builds docker image - name: category_api:latest
 build-bin: deps  ## Builds a binary file called 
 	poetry build
 
-cache/cache-cy.json:
-	python translate_cache.py
-
 deps: ## Installs dependencies
 	bash ./ci/scripts/deps.sh
 
@@ -54,9 +51,6 @@ fmt: ## installed and formats code
 lint: deps ## installed and lints code
 	poetry run ruff check .
 
-model: build-dev
-	docker-compose run -e RUST_BACKTRACE=1 --entrypoint poetry category_api run ffp-convert -f textdims ${INPUT_VEC} -t finalfusion ${OUTPUT_FIFU}
-
 run: ## Runs category api locally using poetry uvicorn port: 28800
 	poetry run uvicorn category_api.main:app --host ${CATEGORY_API_HOST} --port ${CATEGORY_API_PORT}
 
@@ -66,14 +60,9 @@ run-container: deps build test_data/wiki.en.fifu ## Builds docker container, dow
 test_data/wiki.en.fifu: ## Downloads/Updates fifu data inside the test_data dir
 	curl -o test_data/wiki.en.fifu http://www.sfs.uni-tuebingen.de/a3-public-data/finalfusion-fasttext/wiki/wiki.en.fifu
 
-test_data/cc.cy.300.fifu: ## Downloads/Updates cc.cy.300.fifu data inside test_data dir
-	curl -o test_data/cc.cy.300.vec.gz https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.cy.300.vec.gz
-	gunzip test_data/cc.cy.300.vec.gz
-	@$(MAKE) model INPUT_VEC=test_data/cc.cy.300.vec OUTPUT_FIFU=test_data/cc.cy.300.fifu
+test: deps unit test-component ## Makes sure deps are installed and runs all tests
 
-test: deps unit test-component ## Makes sure dep are installed and runs all tests
-
-test-component: deps ## installed and runs component tests
+test-component: deps ## Runs component tests
 	poetry run pytest tests/api
 
 unit: deps ## installed and runs unit tests

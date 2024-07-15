@@ -8,18 +8,19 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
 
 ### Available scripts
 
-- `make help` - Displays a help menu with available `make` scripts
 - `make all` - Runs audit test and build commands
 - `make audit` - Audits and finds vulnerable dependencies
 - `make build` - Builds ./Dockerfile image name: category_api
 - `make build-bin` - Build a wheel file in folder dist/
-- `make fmt` - Formats the code using go fmt and go vet
+- `make deps` - Installs dependencies
+- `make fmt` - Formats the code using isort and black
+- `make help` - Displays a help menu with available `make` scripts
 - `make lint` - Automated checking of your source code for programmatic and stylistic errors
+- `make lock-check` - Checks the lockfile
 - `make run` - Runs the app locally
 - `make run-container` - Runs make deps -> make build -> runs the container
 - `make test` - Makes sure dep are installed and runs all tests
 - `make test-component` - Makes sure dep are installed and runs component tests
-- `make deps` - Installs dependencies
 
 ### Configuration
 
