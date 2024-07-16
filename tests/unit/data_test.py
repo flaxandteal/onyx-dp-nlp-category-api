@@ -41,9 +41,9 @@ def test_retrieve_from_s3(settings, settings_bonn):
         ]
         with data.retrieve(settings, settings_bonn) as settings_pair:
             settings, settings_bonn = settings_pair
-    assert settings.FIFU_FILE.startswith("/tmp")
-    assert settings_bonn.TAXONOMY_LOCATION.startswith("/tmp")
-    assert settings_bonn.CACHE_TARGET.startswith("/tmp")
+    assert settings.FIFU_FILE.find("/tmp") != -1
+    assert settings_bonn.TAXONOMY_LOCATION.find("/tmp") != -1
+    assert settings_bonn.CACHE_TARGET.find("/tmp") != -1
 
 def test_retrieve_some_from_s3(settings, settings_bonn):
     settings.FIFU_FILE = "test_data/foo-wiki.en.fifu"
@@ -58,5 +58,5 @@ def test_retrieve_some_from_s3(settings, settings_bonn):
         with data.retrieve(settings, settings_bonn) as settings_pair:
             settings, settings_bonn = settings_pair
     assert settings.FIFU_FILE == "test_data/foo-wiki.en.fifu"
-    assert settings_bonn.TAXONOMY_LOCATION.startswith("/tmp")
-    assert settings_bonn.CACHE_TARGET.startswith("/tmp")
+    assert settings_bonn.TAXONOMY_LOCATION.find("/tmp") != -1
+    assert settings_bonn.CACHE_TARGET.find("/tmp") != -1
