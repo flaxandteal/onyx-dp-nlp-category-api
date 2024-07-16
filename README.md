@@ -111,7 +111,7 @@ This has an additional advantage that we have been able to prototype incorporati
 
 Using finalfusion libraries in Rust enables mmapping for memory efficiency.
 
-#### Category Vectors
+### Category Vectors
 
 A bag of words is formed, to make a vector for the category - a weighted average of the terms, according to the attribute contributing it:
 
@@ -129,7 +129,7 @@ is defined by exceeding a similarity threshold to terms in the category title.
 
 These can then be compared to search queries word-by-word, obtaining a score for each taxonomy entry, for a given phrase.
 
-#### Scoring Adjustment
+### Scoring Adjustment
 
 In addition to the direct cosine similarity of these vectors, we:
 
@@ -144,9 +144,9 @@ Once per-category scores for a search phrase are obtained, we filter them based 
 - appearance thresholds, to ensure we only return matches over a minimal viable score;
 - a signal-to-noise ratio filter (SNR) that returns a small number of notably high-scoring categories or a larger group of less distinguishable top scorers, according to a supplied SNR ratio.
 
-### License
+## License
 
-Prepared by Flax & Teal Limited for ONS Alpha project.
+Initially prepared by Flax & Teal Limited for ONS Beta project.
 Copyright © 2024, [Office for National Statistics](https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
