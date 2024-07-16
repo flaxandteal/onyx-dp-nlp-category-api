@@ -84,17 +84,17 @@ make run-container
 
 #### Quick Local Setup
 
-1. setup .env file - `$ cp .env.local .env`
-
-1. Make sure elasticsearch is running on this host BONN_ELASTICSEARCH_HOST
-
+1. setup .env file - `make generate-envs`
+1. Get cached copies of `cache.json`, `taxonomy.json` and `wiki.en.fifu` from sandbox and put them in your `/cache` folder
 1. Run make script
 
 ```sh
 make run
 ```
 
-### Algorithm
+In order to generate your own `cache.json` and `wiki.en.fifu` you will need to be running an elasticsearch server with a populated index (`BONN_ELASTICSEARCH_INDEX`) on the `BONN_ELASTICSEARCH_HOST` address.
+
+## Algorithm
 
 The following requirements were identified:
 

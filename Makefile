@@ -53,6 +53,9 @@ fmt: ## Formats code
 	poetry run isort category_api
 	poetry run black category_api
 
+generate-envs: # generates an env file - warning, this will wipe your local .env file
+	cp .env.local .env
+
 lint: deps ## Lints code
 	poetry run ruff check .
 
