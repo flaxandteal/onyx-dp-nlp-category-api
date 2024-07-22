@@ -56,7 +56,7 @@ A Python microservice to wrap the Bonn package to match queries on the ONS Websi
     Poetry >= 1.4.1
     Python >= 3.10
 
-If you are failing to compile and the error message is something like `do you have cargo in your PATH?` this is because it's trying to compile the underlying package `bonn-py` which is written in Rust. There is no requirement to compile the source package. This is because your machine doesn't match a [pre-built distribution](https://pypi.org/project/bonn/#files). You'll need to check your OS, OS version, processor and python version.
+If you are failing to compile and the error message is something like `do you have cargo in your PATH?` this is because it's trying to compile the underlying package `bonn-py` which is written in Rust. There is no requirement to compile the source package. This is because your machine doesn't match a [pre-built distribution](https://pypi.org/project/bonn/#files). You'll need to check your OS, OS version, processor and python version. You can use `poetry env info` to see what poetry is using.
 
 In addition, S3 authentication is done within `boto3`, which uses the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables, if set.
 
