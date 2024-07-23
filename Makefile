@@ -21,6 +21,10 @@ export CATEGORY_API_START_TIME = $(shell date +%s)
 export CATEGORY_API_GIT_COMMIT ?= $(shell git rev-parse HEAD)
 export CATEGORY_API_VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
 
+ifneq (,$(wildcard ./.env))
+	include .env
+	export
+endif
 
 .PHONY: all audit build build-bin delimiter deps fmt lint model run-container run test test-component test-unit help
 
