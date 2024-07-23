@@ -88,7 +88,7 @@ make run-container
 #### Quick Local Setup
 
 1. setup .env file - `make generate-envs`
-1. Get cached copies of `cache.json`, `taxonomy.json` and `wiki.en.fifu` from sandbox S3 bucket (you can find the specific bucket by looking at `dp-configs` for this app for `CATEGORY_API_CACHE_S3_BUCKET`) and put them in your `/cache` folder
+1. Get cached copies of `cache.json`, `taxonomy.json` and `wiki.en.fifu` from sandbox S3 bucket (you can find the specific bucket by looking at `dp-configs` for this app for `CATEGORY_API_CACHE_S3_BUCKET`) and put them in your `/cache` folder. Then update your .env file to match the locations.
 1. Run make script
 
 ```sh
