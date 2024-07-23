@@ -30,10 +30,10 @@ endif
 
 all: delimiter-AUDIT audit delimiter-LINTERS lint delimiter-UNIT-TESTS test-unit delimiter-COMPONENT_TESTS test-component delimiter-FINISH ## Runs multiple targets, audit, lint, test and test-component
 
-check-files: 
-	if [ ! -f ./${BONN_CACHE_TARGET} ]; then echo "No cache file present"; exit 1; fi;
-	if [ ! -f ./${BONN_TAXONOMY_LOCATION} ]; then echo "No taxonomy file present"; exit 1; fi;
-	if [ ! -f ./${CATEGORY_API_FIFU_FILE} ]; then echo "No fifu file present"; exit 1; fi;
+check-files:
+	@if [ ! -f ./${BONN_CACHE_TARGET} ]; then echo "No cache file present"; exit 1; fi;
+	@if [ ! -f ./${BONN_TAXONOMY_LOCATION} ]; then echo "No taxonomy file present"; exit 1; fi;
+	@if [ ! -f ./${CATEGORY_API_FIFU_FILE} ]; then echo "No fifu file present"; exit 1; fi;
 
 check-lock: deps ## Checks lockfile
 	poetry lock --check
