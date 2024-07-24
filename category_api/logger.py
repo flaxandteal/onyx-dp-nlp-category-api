@@ -31,6 +31,7 @@ def level_to_severity(level):
 
 def add_severity_level(logger, method_name, event_dict):
     event_dict[0][0]["severity"] = level_to_severity(event_dict[0][0]["level"])
+    del event_dict[0][0]["level"]
     return event_dict
 
 
