@@ -23,12 +23,12 @@ def make_app(controllers, settings, settings_bonn):
     app.controllers = controllers
     app.settings = settings
     app.settings_bonn = settings_bonn
-    
+
     routes_spec = importlib.util.find_spec("category_api.routes")
     routes = importlib.util.module_from_spec(routes_spec)
     routes.app = app
     routes_spec.loader.exec_module(routes)
-    
+
     return app
 
 

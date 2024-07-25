@@ -34,9 +34,11 @@ def add_severity_level(logger, method_name, event_dict):
     del event_dict[0][0]["level"]
     return event_dict
 
+
 def remove_microseconds(logger, method_name, event_dict):
     event_dict[0][0]["created_at"] = event_dict[0][0]["created_at"][:-3] + "Z"
     return event_dict
+
 
 def format_errors(*excs: BaseException, trace=None):
     errors = []
@@ -56,7 +58,9 @@ def format_errors(*excs: BaseException, trace=None):
 def setup_logging():
     shared_processors = []
     processors = shared_processors + [
-        structlog.processors.TimeStamper(fmt="%Y-%m-%dT%H:%M:%S.%f", utc=False, key="created_at"),
+        structlog.processors.TimeStamper(
+            fmt="%Y-%m-%dT%H:%M:%S.%f", utc=False, key="created_at"
+        ),
         structlog.stdlib.add_log_level,
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
