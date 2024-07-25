@@ -1,6 +1,6 @@
 import logging
 import logging.config
-from datetime import datetime
+from datetime import datetime, timezone
 
 import structlog
 import structlog._log_levels
@@ -34,6 +34,9 @@ def add_severity_level(logger, method_name, event_dict):
     del event_dict[0][0]["level"]
     return event_dict
 
+def remove_microseconds(logger, method_name, event_dict):
+    event_dict[0][0]["created_at"] = event_dict[0][0]["created_at"][:-3] + "Z"
+    return event_dict
 
 def format_errors(*excs: BaseException, trace=None):
     errors = []
@@ -53,10 +56,12 @@ def format_errors(*excs: BaseException, trace=None):
 def setup_logging():
     shared_processors = []
     processors = shared_processors + [
+        structlog.processors.TimeStamper(fmt="%Y-%m-%dT%H:%M:%S.%f", utc=False, key="created_at"),
         structlog.stdlib.add_log_level,
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         add_severity_level,
+        remove_microseconds,
     ]
     structlog.configure(
         cache_logger_on_first_use=True,
@@ -96,7 +101,6 @@ def setup_logging():
 
     return structlog.get_logger(
         namespace=settings.NAMESPACE,
-        created_at=datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
         event="",
         severity=3,  # default
     )
