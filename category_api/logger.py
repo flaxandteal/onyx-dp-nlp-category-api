@@ -1,6 +1,5 @@
 import logging
 import logging.config
-from datetime import datetime, timezone
 
 import structlog
 import structlog._log_levels
